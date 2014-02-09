@@ -55,7 +55,7 @@ class STAT{
 	vector<vector<POBYT*> > krajina;
 	MESTO *city;
 public:
-	STAT(string nazovStatu, vector<MESTO>/*Tu chces mesto? zoznam miest*/);
+	STAT(string nazovStatu, vector<MESTO>/*Test funkcnosti gitu zoznam miest*/);
 	int pocetVsetkychPobytov();
 	int pocetPobytov(const string typ, const string dop, const string str);
 	int pocetVolnychPobytov(const string typ, const string dop, const string str);

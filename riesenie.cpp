@@ -45,13 +45,13 @@ public:
 class MESTO{
 	//POBYT zajazd;
 	//int pocetPobytovMesta;
-	string mesto;
+	string mesto; // TODO neskor zmenit na nazov
 	vector<POBYT> pobyty; // je to PRIVATE...mam to dat do PUBLIC alebo urobit getPobyty()? ak by sa to dalo do public nemohli by nastat problemy?
 	//ze by k tomu mohol pristupovat hocikto? tak urobime getPobyty
 public:
 	MESTO(const string NazovMesta, vector<POBYT> &zoznamPobytov);
-	vector<POBYT> getPobyty(); // netusim ci to bude fungovat, teda ze kde ma byt len POBYT, kde POBYT* a kde & referencia
-		// asi idem na malom programiku par konstrukcii otestovat oukej
+	vector<POBYT> & getPobyty(); 
+	const string getNazov();
 };
 
 class STAT{
@@ -63,10 +63,10 @@ class STAT{
 public:
 	STAT(const string NazovStatu, vector<MESTO> &zoznamMiest);
 	int pocetVsetkychPobytov();
-	int pocetPobytov(const string typ, const string dop, const string str);
+	int pocetPobytov(const string typ, const string dop, const string str); 
 	int pocetVolnychPobytov(const string typ, const string dop, const string str);
 	bool ubytujZakaznika(const string PriezviskoMeno, const string typPobytu, const string typDopravy, const string typStravy);
-	bool ubytujZakaznika(const string PriezviskoMeno, const int Mesto, const string typPobytu, const string typDopravy, const string typStravy);
+	bool ubytujZakaznika(const string PriezviskoMeno, const string Mesto, const string typPobytu, const string typDopravy, const string typStravy);
 	const string zoznamMien();
 	bool odhlasHosta(const string priezviskoMeno);
 	int ohodnoteniePobytu();
@@ -196,8 +196,12 @@ MESTO::MESTO(const string NazovMesta, vector<POBYT> &zoznamPobytov){
 	}
 }
 
-vector<POBYT> MESTO::getPobyty() {
+vector<POBYT> & MESTO::getPobyty() {
 	return pobyty;
+}
+
+const string MESTO::getNazov() {
+	return mesto;
 }
 
 STAT::STAT(const string NazovStatu, vector<MESTO> &zoznamMiest) {
@@ -237,12 +241,17 @@ for (int i = 0; i < mesta.size(); i++) {
 			/*&& krajina[i][j]->getTypHam() == str
 			&& krajina[i][j]->getTypDop() == dop*/
 			&& mesta[i].getPobyty().at(j).getObsadeny() == false)
-			//&& krajina[i][j]->hodnotenie!=0)//0 je nastavena pre nehodnotene izby aka v kt.sa byva
+			//ziskava to vobec get obsadeny? malo by...takze co by to malo ukazovat? je X pobytov v stane a ako zistime pocet volnych?
+			//je 5 stanov a jeden je obsadeny ale pripocita to aj ten obsadeny...aha
+		// zakomentovane veci nie su problematicke? ono vzdy sa rovna typ stravy v testoch tej spravnej odpovedi.
+		//netestujem to inak iba aby dalo true. a tusis preco je chybne volne stany/a dalsie?
+		//mne sa zdalo ze prvykrat ked som niekoho ubytocala do anglicka do london tak sa mi z volnych odpocitalo.//checknem
 		{	pocet++;	}
 	}
 }
 return pocet++;
 }
+
 bool STAT::ubytujZakaznika(const string PriezviskoMeno, const string typPobytu, const string typDopravy, const string typStravy) {
 	for (int i = 0; i < mesta.size(); i++) {
 		for (int j = 0; j < mesta[i].getPobyty().size(); j++) {
@@ -257,22 +266,34 @@ bool STAT::ubytujZakaznika(const string PriezviskoMeno, const string typPobytu, 
 		}
 	}
 	return false;
-}//pretazovanie funkcie
-// uz nebude cislo mesta...bud to zrusime alebo prerobime ze to zobere typ Mesto...zatial zakomentujem
-/*bool STAT::ubytujZakaznika(const string PriezviskoMeno, const int Mesto, const string typPobytu, const string typDopravy, const string typStravy) {
-	unsigned int mesto = Mesto;
-	for (int j = 0; j < krajina[mesto].size(); j++) {
-		if (krajina[mesto][j]->getTypIzby() == typPobytu
-			&& krajina[mesto][j]->getTypHam() == typStravy
-			&& krajina[mesto][j]->getTypDop() == typDopravy
-			&& krajina[mesto][j]->getObsadeny() == false)
-		{				
-			krajina[mesto][j]->ubytujZakaznika(PriezviskoMeno, typPobytu);
-			return true;
+}
+//vyskusaj pockaj este rekapitulacia
+// takze prehladavame vsetky mesta, a ked najdeme konkretne mesto (kt.chceme) tak:
+//		hladame prvyv volny pobyt, so stanovenymi podmienkami v tom meste, ak najdeme vratime true,
+//		inak nam skor skonci ten cyklus vdaka break (neprehl.uz dalej) - predpokladame, ze nazvy miest su unykatne ak nie, tak break odstran
+// TVOJE POZNAMKY: fuh no pochopila som break-konecne:)bolo na case v 3rocniku.:-) potrebujem teraz nieco zmenit v testoch?
+// asi ano, ale tuto variaciu si nevolala kedze testy nemaju chybu, treba to zavolat aj s nazvom mesta v testoch.skusim
+bool STAT::ubytujZakaznika(const string PriezviskoMeno, const string Mesto, const string typPobytu, const string typDopravy, const string typStravy) {
+	string konkretneMesto = Mesto;
+	for (int i = 0; i < mesta.size(); i++) {
+		if (mesta[i].getNazov() == konkretneMesto) {
+			for (int j = 0; j < mesta[i].getPobyty().size(); j++) {
+				if (mesta[i].getPobyty().at(j).getTypIzby() == typPobytu
+					&& mesta[i].getPobyty().at(j).getTypHam() == typStravy
+					&& mesta[i].getPobyty().at(j).getTypDop() == typDopravy
+					&& mesta[i].getPobyty().at(j).getObsadeny() == false)
+				{
+					mesta[i].getPobyty().at(j).ubytujZakaznika(PriezviskoMeno, typPobytu);  // tu bude niekde chyba
+					// podla mna getPobyty(), ze to vrati iba nieco nanovo skopirovane
+					return true;
+				}
+			}
+			break;
 		}
 	}
 	return false;
-}*/
+}
+
 const string STAT::zoznamMien() {
 	string menaH = "";
 	for (int i = 0; i < mesta.size(); i++) {

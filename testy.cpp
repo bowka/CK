@@ -109,10 +109,6 @@ void testyMiest(){
 void testyStatu(){
 	nastavSledovanieSkupiny("testovanie statov");
 
-	// by sa nam hodilo preniest uz vytvorene mesta z testyMiest sem aby sme to tu vsetko nemuseli vytvarat
-	// jaky mas navrh? ulozit to do globalnej premennej?tie mesta
-	// ono su tu iba obycajne funkcie, keby sme pouzili taketo glob.premenne asi by Ta Gyarfas zmasakroval :D
-	// nic skopirujem uz vytvorene
 	POBYT vila("vila", 5, "all inclusive", "letecky");
 	POBYT apartman("Apartman", 4, "plnopenzia", "vlak");
 	POBYT stan("stan", 3, "polopenzia", "bus");
@@ -141,10 +137,10 @@ void testyStatu(){
 	testEqual(Slovensko.pocetPobytov("Apartman", "vlak", "plnopenzia"), 2, "Apartmany");
 	testEqual(Slovensko.pocetPobytov("vila", "letecky", "all inclusive"), 2, "vila");
 
-	testTrue(Slovensko.ubytujZakaznika("Bednarova Majka", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
-	testTrue(Slovensko.ubytujZakaznika("Drobna Maria", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
-	testTrue(Slovensko.ubytujZakaznika("Stastna Katka", "stan", "bus", "polopenzia"), "ubytovanie do stanu");
-	testTrue(Slovensko.ubytujZakaznika("Bednarova Karolina", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
+	testTrue(Slovensko.ubytujZakaznika("Bednarova Majka","Bratislava", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
+	testTrue(Slovensko.ubytujZakaznika("Drobna Maria", "Bratislava", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
+	testTrue(Slovensko.ubytujZakaznika("Stastna Katka","Kosice", "stan", "bus", "polopenzia"), "ubytovanie do stanu");
+	testTrue(Slovensko.ubytujZakaznika("Bednarova Karolina","Bratislava", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
 
 	testEqual(Slovensko.pocetVolnychPobytov("stan", "bus", "polopenzia"), 4, "Volne stany");
 	testEqual(Slovensko.pocetVolnychPobytov("Apartman", "vlak", "plnopenzia"), 1, "Volne apartmany");
@@ -158,7 +154,7 @@ void testyStatu(){
 	zoznamPobytov.push_back(vila);
 	zoznamPobytov.push_back(vila);
 	MESTO London("London", zoznamPobytov);
-
+	// kde myslis ze sa to odpocita?
 	zoznamMiest.clear();
 	zoznamMiest.push_back(London);
 	STAT Anglicko("Anglicko", zoznamMiest);
@@ -167,15 +163,16 @@ void testyStatu(){
 	testEqual(Anglicko.pocetPobytov("Apartman", "vlak", "plnopenzia"), 3, "Apartmany");
 	testEqual(Anglicko.pocetPobytov("vila", "letecky", "all inclusive"), 3, "vila");
 
-	testTrue(Anglicko.ubytujZakaznika("Dikosova Veronika", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
-	testTrue(Anglicko.ubytujZakaznika("Majkova Ivetka", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
-	testTrue(Anglicko.ubytujZakaznika("Bednar Karol", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
-	testTrue(Anglicko.ubytujZakaznika("Bednar Michael", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
-	testTrue(Anglicko.ubytujZakaznika("Bednar Dusan", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
+	testTrue(Anglicko.ubytujZakaznika("Dikosova Veronika", "London", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
+	testTrue(Anglicko.ubytujZakaznika("Dikosova Dominika","London", "vila", "letecky", "all inclusive"), "ubytovanie do vily V LONDON");
+	testTrue(Anglicko.ubytujZakaznika("Majkova Ivetka", "London", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
+	testTrue(Anglicko.ubytujZakaznika("Bednar Karol", "London", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
+	testTrue(Anglicko.ubytujZakaznika("Bednar Michael", "London", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
+	testTrue(Anglicko.ubytujZakaznika("Bednar Dusan", "London", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
 
-	testEqual(Anglicko.pocetVolnychPobytov("stan", "bus", "polopenzia"), 0, "Volne stany");
-	testEqual(Anglicko.pocetVolnychPobytov("Apartman", "vlak", "plnopenzia"), 1, "Volne apartmany");
-	testEqual(Anglicko.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 2, "Volne vily");
+	testEqual(Anglicko.pocetVolnychPobytov("stan", "bus", "polopenzia"), 0, "Volne stany"); //9,10,11? kolkaty to je test? 
+	testEqual(Anglicko.pocetVolnychPobytov("Apartman", "vlak", "plnopenzia"), 0, "Volne apartmany");
+	testEqual(Anglicko.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 0, "Volne vily");
 
 	zoznamPobytov.clear();
 	zoznamPobytov.push_back(vila); 

@@ -42,8 +42,8 @@ class MESTO{
 	//ze by k tomu mohol pristupovat hocikto? tak urobime getPobyty
 public:
 	MESTO(const string NazovMesta, vector<POBYT> &zoznamPobytov);
-	vector<POBYT> getPobyty(); // netusim ci to bude fungovat, teda ze kde ma byt len POBYT, kde POBYT* a kde & referencia
-	// asi idem na malom programiku par konstrukcii otestovat oukej
+	vector<POBYT> & getPobyty();
+	const string getNazov();
 };
 
 class STAT{
@@ -58,7 +58,7 @@ public:
 	int pocetPobytov(const string typ, const string dop, const string str);
 	int pocetVolnychPobytov(const string typ, const string dop, const string str);
 	bool ubytujZakaznika(const string PriezviskoMeno, const string typPobytu, const string typDopravy, const string typStravy);
-	bool ubytujZakaznika(const string PriezviskoMeno, const int Mesto, const string typPobytu, const string typDopravy, const string typStravy);
+	bool ubytujZakaznika(const string PriezviskoMeno, const string Mesto, const string typPobytu, const string typDopravy, const string typStravy);
 	const string zoznamMien();
 	bool odhlasHosta(const string priezviskoMeno);
 	int ohodnoteniePobytu();

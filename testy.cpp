@@ -75,7 +75,7 @@ void testyHodnotenia(){
 
 	zhodnotenieVysledkov();
 }
-//testy miest?jj
+
 void testyMiest(){
 	POBYT vila1("vila", 5, "all inclusive", "letecky");
 	POBYT vila2("vila", 5, "all inclusive", "letecky");
@@ -88,7 +88,7 @@ void testyMiest(){
 	POBYT stan3("stan", 3, "polopenzia", "bus");
 
 	vector<POBYT> zoznamPobytov;
-	zoznamPobytov.push_back(vila1); //takto nejako?hej a na konci ked prejdes na ine mesto mozes dat clear toho zoznamPobytov, napr:
+	zoznamPobytov.push_back(vila1); 
 	zoznamPobytov.push_back(vila2);
 	zoznamPobytov.push_back(apartman2);
 	zoznamPobytov.push_back(stan1);
@@ -139,16 +139,16 @@ void testyStatu(){
 	testEqual(Slovensko.pocetVsetkychPobytov(), 9, "SLOVENSKO=Vsetky pobyty");
 	testEqual(Slovensko.pocetPobytov("stan", "bus", "polopenzia"), 5, "stany");
 	testEqual(Slovensko.pocetPobytov("Apartman", "vlak", "plnopenzia"), 2, "Apartmany");
-	testEqual(Slovensko.pocetPobytov("vila", "letecky", "all inclusive"), 1, "vila");
+	testEqual(Slovensko.pocetPobytov("vila", "letecky", "all inclusive"), 2, "vila");
 
 	testTrue(Slovensko.ubytujZakaznika("Bednarova Majka", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
 	testTrue(Slovensko.ubytujZakaznika("Drobna Maria", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
-	testTrue(Slovensko.ubytujZakaznika("Malkova Iveta", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
 	testTrue(Slovensko.ubytujZakaznika("Stastna Katka", "stan", "bus", "polopenzia"), "ubytovanie do stanu");
 	testTrue(Slovensko.ubytujZakaznika("Bednarova Karolina", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
-	testEqual(Slovensko.pocetVolnychPobytov("stan", "bus", "polopenzia"), 2, "Volne stany");
-	testEqual(Slovensko.pocetVolnychPobytov("Apartman", "vlak", "plnopenzia"), 4, "Volne apartmany");
-	testEqual(Slovensko.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 3, "Volne vily");
+
+	testEqual(Slovensko.pocetVolnychPobytov("stan", "bus", "polopenzia"), 4, "Volne stany");
+	testEqual(Slovensko.pocetVolnychPobytov("Apartman", "vlak", "plnopenzia"), 1, "Volne apartmany");
+	testEqual(Slovensko.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 0, "Volne vily");
 	
 	zoznamPobytov.clear();
 	zoznamPobytov.push_back(apartman);
@@ -162,24 +162,23 @@ void testyStatu(){
 	zoznamMiest.clear();
 	zoznamMiest.push_back(London);
 	STAT Anglicko("Anglicko", zoznamMiest);
-	testEqual(Anglicko.pocetVsetkychPobytov(), 28, "ANGLICKO======Vsetky pobyty");
-	testEqual(Anglicko.pocetPobytov("stan", "bus", "polopenzia"), 15, "stany");
-	testEqual(Anglicko.pocetPobytov("Apartman", "vlak", "plnopenzia"), 6, "Apartmany");
-	testEqual(Anglicko.pocetPobytov("vila", "letecky", "all inclusive"), 7, "vila");
+	testEqual(Anglicko.pocetVsetkychPobytov(), 6, "ANGLICKO======Vsetky pobyty");
+	testEqual(Anglicko.pocetPobytov("stan", "bus", "polopenzia"), 0, "stany");
+	testEqual(Anglicko.pocetPobytov("Apartman", "vlak", "plnopenzia"), 3, "Apartmany");
+	testEqual(Anglicko.pocetPobytov("vila", "letecky", "all inclusive"), 3, "vila");
+
 	testTrue(Anglicko.ubytujZakaznika("Dikosova Veronika", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
-	testTrue(Anglicko.ubytujZakaznika("Drakna Maria", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
 	testTrue(Anglicko.ubytujZakaznika("Majkova Ivetka", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
-	testTrue(Anglicko.ubytujZakaznika("Stastny Peter", "stan", "bus", "polopenzia"), "ubytovanie do stanu");
 	testTrue(Anglicko.ubytujZakaznika("Bednar Karol", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
 	testTrue(Anglicko.ubytujZakaznika("Bednar Michael", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
 	testTrue(Anglicko.ubytujZakaznika("Bednar Dusan", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartnam");
 
-	testEqual(Anglicko.pocetVolnychPobytov("stan", "bus", "polopenzia"), 14, "Volne stany");
-	testEqual(Anglicko.pocetVolnychPobytov("Apartman", "vlak", "plnopenzia"), 3, "Volne apartmany");
-	testEqual(Anglicko.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 4, "Volne vily");
+	testEqual(Anglicko.pocetVolnychPobytov("stan", "bus", "polopenzia"), 0, "Volne stany");
+	testEqual(Anglicko.pocetVolnychPobytov("Apartman", "vlak", "plnopenzia"), 1, "Volne apartmany");
+	testEqual(Anglicko.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 2, "Volne vily");
 
 	zoznamPobytov.clear();
-	zoznamPobytov.push_back(vila); //takto nejako?hej a na konci ked prejdes na ine mesto mozes dat clear toho zoznamPobytov, napr:
+	zoznamPobytov.push_back(vila); 
 	zoznamPobytov.push_back(vila);
 	zoznamPobytov.push_back(apartman);
 	zoznamPobytov.push_back(stan);
@@ -199,9 +198,9 @@ void testyStatu(){
 	zoznamMiest.push_back(Makarska);
 	zoznamMiest.push_back(Zagreb);
 	STAT Chorvatsko("Chorvatsko", zoznamMiest);
-	testEqual(Chorvatsko.pocetVsetkychPobytov(), 8, "CHORVATSKO======Vsetky pobyty");
-	testEqual(Chorvatsko.pocetPobytov("stan", "bus", "polopenzia"), 4, "stany");
-	testEqual(Chorvatsko.pocetPobytov("Apartman", "vlak", "plnopenzia"),2, "Apartmany");
+	testEqual(Chorvatsko.pocetVsetkychPobytov(),11, "CHORVATSKO======Vsetky pobyty");
+	testEqual(Chorvatsko.pocetPobytov("stan", "bus", "polopenzia"), 5, "stany");
+	testEqual(Chorvatsko.pocetPobytov("Apartman", "vlak", "plnopenzia"),4, "Apartmany");
 	testEqual(Chorvatsko.pocetPobytov("vila", "letecky", "all inclusive"), 2, "vila");
 	testTrue(Chorvatsko.ubytujZakaznika("Bednar Dusanko", "Apartman", "vlak", "plnopenzia"), "ubytovanie do apartmanu");
 	testEqual(Chorvatsko.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 2, "Volne vilu");
@@ -210,8 +209,8 @@ void testyStatu(){
 
 	zoznamMiest.clear();
 	STAT Peklo("Peklo", zoznamMiest);
-	testEqual(Peklo.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 1, "PEKLO======Volne vily");
-	testTrue(Peklo.ubytujZakaznika("Javorcsikova Danka", "vila", "letecky", "all inclusive"), "PEKLO---------");
+	testEqual(Peklo.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 0, "PEKLO======Volne vily");
+	testFalse(Peklo.ubytujZakaznika("Javorcsikova Danka", "vila", "letecky", "all inclusive"), "PEKLO---------");
 	testEqual(Peklo.pocetVolnychPobytov("Apartman", "vlak", "plnopenzia"), 0, "PEKLO=Volne apartmany");
 	
 	zhodnotenieVysledkov();

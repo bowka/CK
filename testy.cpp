@@ -113,39 +113,33 @@ void testyStatu(){
 	// jaky mas navrh? ulozit to do globalnej premennej?tie mesta
 	// ono su tu iba obycajne funkcie, keby sme pouzili taketo glob.premenne asi by Ta Gyarfas zmasakroval :D
 	// nic skopirujem uz vytvorene
-	POBYT vila1("vila", 5, "all inclusive", "letecky");
-	POBYT vila2("vila", 5, "all inclusive", "letecky");
-	POBYT vila3("vila", 5, "all inclusive", "letecky");
-	POBYT apartman1("Apartman", 4, "plnopenzia", "vlak");
-	POBYT apartman2("Apartman", 4, "plnopenzia", "vlak");
-	POBYT apartman3("Apartman", 4, "plnopenzia", "vlak");
-	POBYT stan1("stan", 3, "polopenzia", "bus");
-	POBYT stan2("stan", 3, "polopenzia", "bus");
-	POBYT stan3("stan", 3, "polopenzia", "bus");
+	POBYT vila("vila", 5, "all inclusive", "letecky");
+	POBYT apartman("Apartman", 4, "plnopenzia", "vlak");
+	POBYT stan("stan", 3, "polopenzia", "bus");
 
 	vector<POBYT> zoznamPobytov;
-	zoznamPobytov.push_back(vila1);
-	zoznamPobytov.push_back(vila2);
-	zoznamPobytov.push_back(apartman2);
-	zoznamPobytov.push_back(stan1);
-	zoznamPobytov.push_back(stan2);
+	zoznamPobytov.push_back(vila);
+	zoznamPobytov.push_back(vila);
+	zoznamPobytov.push_back(apartman);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
 	MESTO Bratislava("Bratislava", zoznamPobytov);
 
 	zoznamPobytov.clear();
-	zoznamPobytov.push_back(stan1);
-	zoznamPobytov.push_back(stan2);
-	zoznamPobytov.push_back(stan3);
-	zoznamPobytov.push_back(apartman1);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(apartman);
 	MESTO Kosice("Kosice", zoznamPobytov);
 
 	vector<MESTO> zoznamMiest;
 	zoznamMiest.push_back(Bratislava);
 	zoznamMiest.push_back(Kosice);
 	STAT Slovensko("Slovensko", zoznamMiest);
-	testEqual(Slovensko.pocetVsetkychPobytov(), 14, "SLOVENSKO=Vsetky pobyty");
-	testEqual(Slovensko.pocetPobytov("stan", "bus", "polopenzia"), 3, "stany");
-	testEqual(Slovensko.pocetPobytov("Apartman", "vlak", "plnopenzia"), 5, "Apartmany");
-	testEqual(Slovensko.pocetPobytov("vila", "letecky", "all inclusive"), 6, "vila");
+	testEqual(Slovensko.pocetVsetkychPobytov(), 9, "SLOVENSKO=Vsetky pobyty");
+	testEqual(Slovensko.pocetPobytov("stan", "bus", "polopenzia"), 5, "stany");
+	testEqual(Slovensko.pocetPobytov("Apartman", "vlak", "plnopenzia"), 2, "Apartmany");
+	testEqual(Slovensko.pocetPobytov("vila", "letecky", "all inclusive"), 1, "vila");
 
 	testTrue(Slovensko.ubytujZakaznika("Bednarova Majka", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
 	testTrue(Slovensko.ubytujZakaznika("Drobna Maria", "vila", "letecky", "all inclusive"), "ubytovanie do vily");
@@ -157,12 +151,12 @@ void testyStatu(){
 	testEqual(Slovensko.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 3, "Volne vily");
 	
 	zoznamPobytov.clear();
-	zoznamPobytov.push_back(apartman1);
-	zoznamPobytov.push_back(apartman2);
-	zoznamPobytov.push_back(apartman3);
-	zoznamPobytov.push_back(vila1);
-	zoznamPobytov.push_back(vila2);
-	zoznamPobytov.push_back(vila3);
+	zoznamPobytov.push_back(apartman);
+	zoznamPobytov.push_back(apartman);
+	zoznamPobytov.push_back(apartman);
+	zoznamPobytov.push_back(vila);
+	zoznamPobytov.push_back(vila);
+	zoznamPobytov.push_back(vila);
 	MESTO London("London", zoznamPobytov);
 
 	zoznamMiest.clear();
@@ -185,20 +179,20 @@ void testyStatu(){
 	testEqual(Anglicko.pocetVolnychPobytov("vila", "letecky", "all inclusive"), 4, "Volne vily");
 
 	zoznamPobytov.clear();
-	zoznamPobytov.push_back(vila1); //takto nejako?hej a na konci ked prejdes na ine mesto mozes dat clear toho zoznamPobytov, napr:
-	zoznamPobytov.push_back(vila2);
-	zoznamPobytov.push_back(apartman2);
-	zoznamPobytov.push_back(stan1);
-	zoznamPobytov.push_back(stan2);
+	zoznamPobytov.push_back(vila); //takto nejako?hej a na konci ked prejdes na ine mesto mozes dat clear toho zoznamPobytov, napr:
+	zoznamPobytov.push_back(vila);
+	zoznamPobytov.push_back(apartman);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
 	MESTO Zagreb("Zagreb", zoznamPobytov);
 
 	zoznamPobytov.clear();
-	zoznamPobytov.push_back(stan1);
-	zoznamPobytov.push_back(stan2);
-	zoznamPobytov.push_back(stan3);
-	zoznamPobytov.push_back(apartman1);
-	zoznamPobytov.push_back(apartman1);
-	zoznamPobytov.push_back(apartman1);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(apartman);
+	zoznamPobytov.push_back(apartman);
+	zoznamPobytov.push_back(apartman);
 	MESTO Makarska("Makarska", zoznamPobytov);
 
 	zoznamMiest.clear();
@@ -226,29 +220,22 @@ void testyStatu(){
 void testyUbytovania(){
 	nastavSledovanieSkupiny("Testy ubytovania v state");
 
-	POBYT vila1("vila", 5, "all inclusive", "letecky");
-	POBYT vila2("vila", 5, "all inclusive", "letecky");
-	POBYT vila3("vila", 5, "all inclusive", "letecky");
-	POBYT apartman1("Apartman", 4, "plnopenzia", "vlak");
-	POBYT apartman2("Apartman", 4, "plnopenzia", "vlak");
-	POBYT apartman3("Apartman", 4, "plnopenzia", "vlak");
-	POBYT stan1("stan", 3, "polopenzia", "bus");
-	POBYT stan2("stan", 3, "polopenzia", "bus");
-	POBYT stan3("stan", 3, "polopenzia", "bus");
-
+	POBYT vila("vila", 5, "all inclusive", "letecky");
+	POBYT apartman("Apartman", 4, "plnopenzia", "vlak");
+	POBYT stan("stan", 3, "polopenzia", "bus");
 	vector<POBYT> zoznamPobytov;
-	zoznamPobytov.push_back(vila1);
-	zoznamPobytov.push_back(vila2);
-	zoznamPobytov.push_back(apartman2);
-	zoznamPobytov.push_back(stan1);
-	zoznamPobytov.push_back(stan2);
+	zoznamPobytov.push_back(vila);
+	zoznamPobytov.push_back(vila);
+	zoznamPobytov.push_back(apartman);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
 	MESTO Brussel("Brussel", zoznamPobytov);
 
 	zoznamPobytov.clear();
-	zoznamPobytov.push_back(stan1);
-	zoznamPobytov.push_back(stan2);
-	zoznamPobytov.push_back(stan3);
-	zoznamPobytov.push_back(vila1);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(vila);
 	MESTO Antverpy("Antverpy", zoznamPobytov);
 
 	vector<MESTO> zoznamMiest;
@@ -276,29 +263,23 @@ void testyUbytovania(){
 void testyOdhlaseniaAHodnotenia(){
 	nastavSledovanieSkupiny("Testy ubytovania v State");
 
-	POBYT vila1("vila", 5, "all inclusive", "letecky");
-	POBYT vila2("vila", 5, "all inclusive", "letecky");
-	POBYT vila3("vila", 5, "all inclusive", "letecky");
-	POBYT apartman1("Apartman", 4, "plnopenzia", "vlak");
-	POBYT apartman2("Apartman", 4, "plnopenzia", "vlak");
-	POBYT apartman3("Apartman", 4, "plnopenzia", "vlak");
-	POBYT stan1("stan", 3, "polopenzia", "bus");
-	POBYT stan2("stan", 3, "polopenzia", "bus");
-	POBYT stan3("stan", 3, "polopenzia", "bus");
+	POBYT vila("vila", 5, "all inclusive", "letecky");
+	POBYT apartman("Apartman", 4, "plnopenzia", "vlak");
+	POBYT stan("stan", 3, "polopenzia", "bus");
 
 	vector<POBYT> zoznamPobytov;
-	zoznamPobytov.push_back(vila1);
-	zoznamPobytov.push_back(vila2);
-	zoznamPobytov.push_back(apartman2);
-	zoznamPobytov.push_back(stan1);
-	zoznamPobytov.push_back(stan2);
+	zoznamPobytov.push_back(vila);
+	zoznamPobytov.push_back(vila);
+	zoznamPobytov.push_back(apartman);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
 	MESTO Bratislava("Bratislava", zoznamPobytov);
 
 	zoznamPobytov.clear();
-	zoznamPobytov.push_back(stan1);
-	zoznamPobytov.push_back(stan2);
-	zoznamPobytov.push_back(stan3);
-	zoznamPobytov.push_back(apartman1);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(stan);
+	zoznamPobytov.push_back(apartman);
 	MESTO Kosice("Kosice", zoznamPobytov);
 
 	vector<MESTO> zoznamMiest;

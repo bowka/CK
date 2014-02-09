@@ -202,35 +202,12 @@ vector<POBYT> MESTO::getPobyty() {
 
 STAT::STAT(const string NazovStatu, vector<MESTO> &zoznamMiest) {
 	nazov = NazovStatu;
-	
+
 	for (unsigned int i = 0; i < zoznamMiest.size(); i++) {
-		for (unsigned int j = 0; j < zoznamMiest[i].getPobyty().size(); j++) { // je to divoke :D
-			/*switch (j) {
-			case 0:
-				krajina[i].push_back(new POBYT("vila", 0, "all inclusive", "letecky"));
-				break;
-			case 1:
-				krajina[i].push_back(new POBYT("Apartman", 0,"plnopenzia", "vlak" ));
-				break;
-			case 2:
-				krajina[i].push_back(new POBYT("stan", 0, "polopenzia", "bus"));
-				break;
-			case 3:
-				krajina[i].push_back(new POBYT("stan", 0, "polopenzia", "bus"));
-				break;
-			case 4:
-				krajina[i].push_back(new POBYT("stan", 0, "polopenzia", "bus"));
-				break;
-			default:
-				krajina[i].push_back(new POBYT("stan", 0, "polopenzia", "bus"));
-			}*/
-		}
+		mesta.push_back(zoznamMiest[i]);
 	}
 }
 int STAT::pocetVsetkychPobytov(){
-	/*int a = 0;
-	a=pocetPobytovMesta*pocetMiest;
-	return a;*/
 	int pocet = 0;
 	for (int i = 0; i < mesta.size(); i++) {
 		pocet += mesta[i].getPobyty().size();

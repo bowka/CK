@@ -43,19 +43,25 @@ public:
 	int hodnotenie();
 };
 class MESTO{
-	POBYT zajazd;
-	int pocetPobytovMesta;
-	string NazovMesta;
+	//POBYT zajazd;
+	//int pocetPobytovMesta;
+	string mesto;
+	vector<POBYT> pobyty; // je to PRIVATE...mam to dat do PUBLIC alebo urobit getPobyty()? ak by sa to dalo do public nemohli by nastat problemy?
+	//ze by k tomu mohol pristupovat hocikto? tak urobime getPobyty
 public:
-	MESTO(const string NazovMesta,int pocetPobytovMesta);
+	MESTO(const string NazovMesta, vector<POBYT> &zoznamPobytov);
+	vector<POBYT> getPobyty(); // netusim ci to bude fungovat, teda ze kde ma byt len POBYT, kde POBYT* a kde & referencia
+		// asi idem na malom programiku par konstrukcii otestovat oukej
 };
 
 class STAT{
-	unsigned int pocetMiest;
-	vector<vector<POBYT*> > krajina;
-	MESTO *city;
+	string nazov;
+	vector<MESTO> mesta;
+	//unsigned int pocetMiest; mesta.size() 
+	//vector<vector<POBYT*> > krajina;
+	//MESTO city;
 public:
-	STAT(string nazovStatu, vector<MESTO>/*Test funkcnosti gitu zoznam miest*/);
+	STAT(const string NazovStatu, vector<MESTO> &zoznamMiest);
 	int pocetVsetkychPobytov();
 	int pocetPobytov(const string typ, const string dop, const string str);
 	int pocetVolnychPobytov(const string typ, const string dop, const string str);
@@ -182,13 +188,24 @@ void POBYT::nastavTypIzby(const string typ0, unsigned int hod, const string Ham,
 	dop = Dop;
 }
 
-STAT::STAT(int pocetPobytovMesta[], int velkost) {
-	pocetMiest = velkost;
-	krajina.resize(pocetMiest);
+MESTO::MESTO(const string NazovMesta, vector<POBYT> &zoznamPobytov){
+	mesto = NazovMesta;
 
-	for (unsigned int i = 0; i < pocetMiest; i++) {
-		for (unsigned int j = 0; j < pocetPobytovMesta[i]; j++) {
-			switch (j) {
+	for (unsigned int i = 0; i < zoznamPobytov.size(); i++) {
+		pobyty.push_back(zoznamPobytov[i]);
+	}
+}
+
+vector<POBYT> MESTO::getPobyty() {
+	return pobyty;
+}
+
+STAT::STAT(const string NazovStatu, vector<MESTO> &zoznamMiest) {
+	nazov = NazovStatu;
+	
+	for (unsigned int i = 0; i < zoznamMiest.size(); i++) {
+		for (unsigned int j = 0; j < zoznamMiest[i].getPobyty().size(); j++) { // je to divoke :D
+			/*switch (j) {
 			case 0:
 				krajina[i].push_back(new POBYT("vila", 0, "all inclusive", "letecky"));
 				break;
@@ -206,7 +223,7 @@ STAT::STAT(int pocetPobytovMesta[], int velkost) {
 				break;
 			default:
 				krajina[i].push_back(new POBYT("stan", 0, "polopenzia", "bus"));
-			}
+			}*/
 		}
 	}
 }
@@ -215,17 +232,17 @@ int STAT::pocetVsetkychPobytov(){
 	a=pocetPobytovMesta*pocetMiest;
 	return a;*/
 	int pocet = 0;
-	for (int i = 0; i < krajina.size(); i++) {
-		pocet += krajina[i].size();
+	for (int i = 0; i < mesta.size(); i++) {
+		pocet += mesta[i].getPobyty().size();
 	}
 	return pocet;
 }
 int STAT::pocetPobytov(const string typ, const string dop, const string str){
 	int pocet = 0;
 
-	for (int i = 0; i < krajina.size(); i++) {
-		for (int j = 0; j < krajina[i].size(); j++) {
-			if (krajina[i][j]->getTypIzby() == typ
+	for (int i = 0; i < mesta.size(); i++) {
+		for (int j = 0; j < mesta[i].getPobyty().size(); j++) {
+			if (mesta[i].getPobyty().at(j).getTypIzby() == typ//co znamena at? to iste co [], len sa to asi nedalo pouzit
 				/*&& krajina[i][j]->getTypHam() == str
 				&& krajina[i][j]->getTypDop() == dop*/)
 			{
@@ -237,14 +254,12 @@ int STAT::pocetPobytov(const string typ, const string dop, const string str){
 }
 int STAT::pocetVolnychPobytov(const string typ, const string dop, const string str){
 int pocet = 0;
-for (int i = 0; i < krajina.size(); i++) {
-	for (int j = 0; j < krajina[i].size(); j++) {
-		
-
-		if (krajina[i][j]->getTypIzby() == typ
+for (int i = 0; i < mesta.size(); i++) {
+	for (int j = 0; j < mesta[i].getPobyty().size(); j++) {
+		if (mesta[i].getPobyty().at(j).getTypIzby() == typ
 			/*&& krajina[i][j]->getTypHam() == str
 			&& krajina[i][j]->getTypDop() == dop*/
-			&& krajina[i][j]->getObsadeny() == false)
+			&& mesta[i].getPobyty().at(j).getObsadeny() == false)
 			//&& krajina[i][j]->hodnotenie!=0)//0 je nastavena pre nehodnotene izby aka v kt.sa byva
 		{	pocet++;	}
 	}
@@ -252,20 +267,22 @@ for (int i = 0; i < krajina.size(); i++) {
 return pocet++;
 }
 bool STAT::ubytujZakaznika(const string PriezviskoMeno, const string typPobytu, const string typDopravy, const string typStravy) {
-	for (int i = 0; i < krajina.size(); i++) {
-		for (int j = 0; j < krajina[i].size(); j++) {
-			if (krajina[i][j]->getTypIzby() == typPobytu
-				&& krajina[i][j]->getTypHam() == typStravy
-				&& krajina[i][j]->getTypDop() == typDopravy
-				&& krajina[i][j]->getObsadeny() == false){
-					krajina[i][j]->ubytujZakaznika(PriezviskoMeno, typPobytu);
+	for (int i = 0; i < mesta.size(); i++) {
+		for (int j = 0; j < mesta[i].getPobyty().size(); j++) {
+			if (mesta[i].getPobyty().at(j).getTypIzby() == typPobytu
+				&& mesta[i].getPobyty().at(j).getTypHam() == typStravy
+				&& mesta[i].getPobyty().at(j).getTypDop() == typDopravy
+				&& mesta[i].getPobyty().at(j).getObsadeny() == false) 
+			{
+					mesta[i].getPobyty().at(j).ubytujZakaznika(PriezviskoMeno, typPobytu);
 					return true;
 			}
 		}
 	}
 	return false;
 }//pretazovanie funkcie
-bool STAT::ubytujZakaznika(const string PriezviskoMeno, const int Mesto, const string typPobytu, const string typDopravy, const string typStravy) {
+// uz nebude cislo mesta...bud to zrusime alebo prerobime ze to zobere typ Mesto...zatial zakomentujem
+/*bool STAT::ubytujZakaznika(const string PriezviskoMeno, const int Mesto, const string typPobytu, const string typDopravy, const string typStravy) {
 	unsigned int mesto = Mesto;
 	for (int j = 0; j < krajina[mesto].size(); j++) {
 		if (krajina[mesto][j]->getTypIzby() == typPobytu
@@ -278,17 +295,17 @@ bool STAT::ubytujZakaznika(const string PriezviskoMeno, const int Mesto, const s
 		}
 	}
 	return false;
-}
+}*/
 const string STAT::zoznamMien() {
 	string menaH = "";
-	for (int i = 0; i < krajina.size(); i++) {
-		for (int j = 0; j < krajina[i].size(); j++) {
-			if (krajina[i][j]->getObsadeny() == true){
+	for (int i = 0; i < mesta.size(); i++) {
+		for (int j = 0; j < mesta[i].getPobyty().size(); j++) {
+			if (mesta[i].getPobyty().at(j).getObsadeny() == true){
 				if (menaH == ""){
-					menaH = menaH + krajina[i][j]->getZakaznik();
+					menaH = menaH + mesta[i].getPobyty().at(j).getZakaznik();
 				}
 				else{
-					menaH = menaH + ", " + krajina[i][j]->getZakaznik();
+					menaH = menaH + ", " + mesta[i].getPobyty().at(j).getZakaznik();
 				}
 			}
 		}
@@ -302,10 +319,10 @@ bool STAT::odhlasHosta(const string priezviskoMeno){
 	host.setCeleMeno(priezviskoMeno);
 	string MenoHosta = host.getCeleMeno();
 
-	for (unsigned int i = 0; i < krajina.size(); i++){
-		for (unsigned int j = 0; j < krajina[i].size(); j++){
-			if (krajina[i][j]->getZakaznik() == MenoHosta){
-				krajina[i][j]->odubytujZakaznika();
+	for (unsigned int i = 0; i < mesta.size(); i++){
+		for (unsigned int j = 0; j < mesta[i].getPobyty().size(); j++){
+			if (mesta[i].getPobyty().at(j).getZakaznik() == MenoHosta){
+				mesta[i].getPobyty().at(j).odubytujZakaznika();
 				return true;
 			}
 		}
@@ -315,10 +332,10 @@ bool STAT::odhlasHosta(const string priezviskoMeno){
 }
 int STAT::ohodnoteniePobytu(){
 	int H = 0;
-	for (unsigned int i = 0; i < krajina.size(); i++){
-		for (unsigned int j = 0; j < krajina[i].size(); j++){
-			if ((!krajina[i][j]->getObsadeny()) && (!krajina[i][j]->getHodnotenie())){
-				H = H + krajina[i][j]->hodnotenie();
+	for (unsigned int i = 0; i < mesta.size(); i++){
+		for (unsigned int j = 0; j < mesta[i].getPobyty().size(); j++){
+			if ((!mesta[i].getPobyty().at(j).getObsadeny()) && (!mesta[i].getPobyty().at(j).getHodnotenie())){
+				H = H + mesta[i].getPobyty().at(j).hodnotenie();
 			}
 		}
 	}

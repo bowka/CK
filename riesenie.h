@@ -34,15 +34,26 @@ public:
 	bool getHodnotenie();
 	int hodnotenie();
 };
+class MESTO{
+	//POBYT zajazd;
+	//int pocetPobytovMesta;
+	string mesto;
+	vector<POBYT> pobyty; // je to PRIVATE...mam to dat do PUBLIC alebo urobit getPobyty()? ak by sa to dalo do public nemohli by nastat problemy?
+	//ze by k tomu mohol pristupovat hocikto? tak urobime getPobyty
+public:
+	MESTO(const string NazovMesta, vector<POBYT> &zoznamPobytov);
+	vector<POBYT> getPobyty(); // netusim ci to bude fungovat, teda ze kde ma byt len POBYT, kde POBYT* a kde & referencia
+	// asi idem na malom programiku par konstrukcii otestovat oukej
+};
 
 class STAT{
-	unsigned int pocetMiest;//v kazdom meste je niekolko pobytov=pocetPobytovMesta
-	//unsigned int pocetPobytovMesta;
-	//POBYT **krajina;
-	vector<vector<POBYT*> > krajina2;
+	string nazov;
+	vector<MESTO> mesta;
+	//unsigned int pocetMiest; mesta.size() 
+	//vector<vector<POBYT*> > krajina;
+	//MESTO city;
 public:
-	STAT(int pocetPobytovMesta[], int velkost);
-	//STAT(unsigned int Mesta, unsigned int pobyty);
+	STAT(const string NazovStatu, vector<MESTO> &zoznamMiest);
 	int pocetVsetkychPobytov();
 	int pocetPobytov(const string typ, const string dop, const string str);
 	int pocetVolnychPobytov(const string typ, const string dop, const string str);

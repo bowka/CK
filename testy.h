@@ -4,6 +4,7 @@
 void  testyPobytu();
 void testyHodnotenia();
 void testyStatu();
+void testyMiest();
 void testyUbytovania();
 void testyOdhlaseniaAHodnotenia();
 

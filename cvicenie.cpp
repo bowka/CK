@@ -11,6 +11,7 @@ int main() {
   testyPobytu();
   testyHodnotenia();
   testyStatu();
+  testyMiest();
   testyUbytovania();
   testyOdhlaseniaAHodnotenia();
 
